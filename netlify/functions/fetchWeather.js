@@ -15,7 +15,7 @@ exports.handler = async (event) => {
 
 	try 
 	{
-		const response = axios.get(URL)
+		const response = await axios.get(URL)
 		return {
 			statusCode: response.status,
 			headers: {
