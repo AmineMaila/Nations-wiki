@@ -9,31 +9,33 @@ exports.handler = async (event) => {
     return {
       statusCode: 400,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ error: "Missing 'query' parameter (e.g., USD)" }),
+      body: JSON.stringify({ error: "Missing 'query' parameter (e.g., Rabat)" }),
     }
   }
 
-	await axios.get(URL)
-		.then((response) => {
-			return {
-				statusCode: response.status,
-				headers: {
-					"Content-Type": "application/json",
-					"Access-Control-Allow-Origin": "*",
-				},
-				body: JSON.stringify(response.data),
-			}
-		})
-		.catch((error) => {
-			const statusCode = error.response?.status || 500
-			const errorMsg = error.response?.data?.message || "Failed To Fetch Data"
-			return {
-				statusCode: statusCode,
-				headers: {
-					"Content-Type": "application/json",
-        	"Access-Control-Allow-Origin": "*",
-				},
-				body: JSON.stringify({error: errorMsg}),
-			}
-		})
+	try 
+	{
+		const response = axios.get(URL)
+		return {
+			statusCode: response.status,
+			headers: {
+				"Content-Type": "application/json",
+				"Access-Control-Allow-Origin": "*",
+			},
+			body: JSON.stringify(response.data),
+		}
+	}
+	catch
+	{
+		const statusCode = error.response?.status || 500
+		const errorMsg = error.response?.data?.message || "Failed To Fetch Data"
+		return {
+			statusCode: statusCode,
+			headers: {
+				"Content-Type": "application/json",
+				"Access-Control-Allow-Origin": "*",
+			},
+			body: JSON.stringify({error: errorMsg}),
+		}
+	}
 }
